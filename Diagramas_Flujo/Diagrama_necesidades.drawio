@@ -1,0 +1,59 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/28.1.2 Chrome/138.0.7204.243 Electron/37.4.0 Safari/537.36" version="28.1.2">
+  <diagram name="Página-1" id="dTEfhrhI58rtVZuheMMW">
+    <mxGraphModel dx="1072" dy="630" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="gdO8PIqFqGc3pTqo627N-40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="gdO8PIqFqGc3pTqo627N-1" target="gdO8PIqFqGc3pTqo627N-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gdO8PIqFqGc3pTqo627N-48" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="gdO8PIqFqGc3pTqo627N-1" target="gdO8PIqFqGc3pTqo627N-44">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="390" y="60" />
+              <mxPoint x="690" y="60" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gdO8PIqFqGc3pTqo627N-49" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="gdO8PIqFqGc3pTqo627N-1" target="gdO8PIqFqGc3pTqo627N-11">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="390" y="60" />
+              <mxPoint x="110" y="60" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gdO8PIqFqGc3pTqo627N-1" value="&lt;font face=&quot;Times New Roman&quot;&gt;&lt;b&gt;Necesidades del Algoritmo&lt;/b&gt;&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="310" y="20" width="160" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="gdO8PIqFqGc3pTqo627N-43" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="gdO8PIqFqGc3pTqo627N-10" target="gdO8PIqFqGc3pTqo627N-41">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gdO8PIqFqGc3pTqo627N-10" value="&lt;div style=&quot;text-align: justify;&quot;&gt;&lt;span style=&quot;font-family: &amp;quot;Times New Roman&amp;quot;;&quot;&gt;Clasificación&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="350" y="70" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="gdO8PIqFqGc3pTqo627N-39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="gdO8PIqFqGc3pTqo627N-11" target="gdO8PIqFqGc3pTqo627N-22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gdO8PIqFqGc3pTqo627N-11" value="&lt;font face=&quot;Times New Roman&quot;&gt;Detección&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="80" y="70" width="60" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="gdO8PIqFqGc3pTqo627N-22" value="&lt;div style=&quot;text-align: justify;&quot;&gt;&lt;span style=&quot;font-family: &amp;quot;Times New Roman&amp;quot;; background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Debe identificar el inicio y fin de la perturbación.&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;hr style=&quot;text-align: justify;&quot;&gt;&lt;div style=&quot;text-align: justify;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;font face=&quot;Times New Roman&quot;&gt;Debe&amp;nbsp;ser robusto frente al ruido.&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;hr style=&quot;text-align: justify;&quot;&gt;&lt;font face=&quot;Times New Roman&quot;&gt;&lt;div style=&quot;text-align: justify;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Debe ser adaptable para sistemas monofasicos y trifasicos&lt;/span&gt;&lt;/div&gt;&lt;/font&gt;&lt;hr style=&quot;text-align: justify;&quot;&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="25" y="110" width="170" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="gdO8PIqFqGc3pTqo627N-41" value="&lt;div style=&quot;text-align: justify;&quot;&gt;&lt;span style=&quot;font-family: &amp;quot;Times New Roman&amp;quot;; background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Debe clasificar si el hundimiento de tensión presenta otra caracteristica asociada.&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;hr style=&quot;text-align: justify;&quot;&gt;&lt;div style=&quot;text-align: justify;&quot;&gt;&lt;font face=&quot;Times New Roman&quot;&gt;En los sistemas trifasicos debe distinguir todos los tipos de desbalances.&lt;/font&gt;&lt;/div&gt;&lt;hr style=&quot;text-align: justify;&quot;&gt;&lt;font face=&quot;Times New Roman&quot;&gt;&lt;div style=&quot;text-align: justify;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Debe tener al menos una precisión mayor al 90%.&lt;/span&gt;&lt;/div&gt;&lt;/font&gt;&lt;hr style=&quot;text-align: justify;&quot;&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="262.5" y="110" width="255" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="gdO8PIqFqGc3pTqo627N-50" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="gdO8PIqFqGc3pTqo627N-44" target="gdO8PIqFqGc3pTqo627N-47">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gdO8PIqFqGc3pTqo627N-44" value="&lt;div style=&quot;text-align: justify;&quot;&gt;&lt;span style=&quot;font-family: &amp;quot;Times New Roman&amp;quot;;&quot;&gt;Parametros&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="650" y="70" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="gdO8PIqFqGc3pTqo627N-47" value="&lt;div style=&quot;text-align: justify;&quot;&gt;&lt;span style=&quot;font-family: &amp;quot;Times New Roman&amp;quot;; background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Debe ser para sistemas de 60Hz.&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;hr style=&quot;text-align: justify;&quot;&gt;&lt;div style=&quot;text-align: justify;&quot;&gt;&lt;font face=&quot;Times New Roman&quot;&gt;Deber se adaptable para cualquier frecuencia de muestreo.&lt;/font&gt;&lt;/div&gt;&lt;hr style=&quot;text-align: justify;&quot;&gt;&lt;font face=&quot;Times New Roman&quot;&gt;&lt;div style=&quot;text-align: justify;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Debe tener un gasto computacional &amp;lt;= a la ventana de tiempo ingresada.&lt;/span&gt;&lt;/div&gt;&lt;/font&gt;&lt;hr style=&quot;text-align: justify;&quot;&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="570" y="110" width="240" height="130" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
