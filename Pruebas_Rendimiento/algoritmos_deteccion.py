@@ -51,7 +51,7 @@ def generar_mascara_rms(senal: np.ndarray, fs: int, f_nom: float = 60.0,
                         umbral_sag: float = 0.90, percentil_ref: float = 95.0) -> np.ndarray:
     """Máscara basada en RMS por medio ciclo con solapamiento 50%."""
     mpc = muestras_por_ciclo(fs, f_nom)
-    hop = mpc // 2
+    hop = mpc  // 2  # salto de medio ciclo
     if hop <= 0:
         return np.zeros(len(senal), dtype=bool)
 
@@ -132,101 +132,60 @@ def detectar_eventos_swt(senal: np.ndarray, fs: int, ciclos_minimos: float = 0.1
 # =============================================================================
 # SECCIÓN 4: DETECTOR AVANZADO CON FUSIÓN
 # =============================================================================
-def refinar_bordes_con_swt(
-    eventos_prelim: List[Tuple[int, int]],
-    intervalos_swt: List[Tuple[int, int]],
-    fs: int,
-    n_total: int,
-    f_nom: float = 60.0,
-    ventana_busqueda_ciclos: float = 0.75
-) -> List[Tuple[int, int]]:
-    """
-    Refina los bordes de eventos preliminares usando la lógica correcta:
-    - Inicio: Se alinea con el ÚLTIMO transitorio SWT antes del borde.
-    - Fin: Se alinea con el PRIMER transitorio SWT después del borde.
-    """
-    if not intervalos_swt or not eventos_prelim:
-        return eventos_prelim # No hay nada que refinar
-
-    mpc = muestras_por_ciclo(fs, f_nom)
-    ventana_muestras = int(ventana_busqueda_ciclos * mpc)
-
-    # Crear un solo arreglo con todos los puntos de cambio de SWT (inicios y fines)
-    puntos_swt = sorted(list(set([p for a, b in intervalos_swt for p in (a, b)])))
-    puntos_swt = np.array(puntos_swt)
-
-    eventos_refinados = []
-    for ini_aprox, fin_aprox in eventos_prelim:
-        
-        # --- Refinar INICIO ---
-        # Ventana de búsqueda: desde mucho antes hasta un poco después del inicio aprox.
-        lim_inf_ini = ini_aprox - ventana_muestras
-        lim_sup_ini = ini_aprox + int(0.1 * mpc) # Pequeña tolerancia hacia adelante
-        
-        # Candidatos: puntos SWT que caen ANTES del límite superior de la ventana
-        candidatos_ini = puntos_swt[puntos_swt <= lim_sup_ini]
-        
-        # De esos, nos quedamos con el que esté MÁS CERCA del inicio (el último)
-        if candidatos_ini.size > 0:
-            nuevo_inicio = max(candidatos_ini) # El ÚLTIMO transitorio antes
-        else:
-            nuevo_inicio = ini_aprox # Fallback: no se encontró candidato
-
-        # --- Refinar FIN ---
-        # Ventana de búsqueda: desde un poco antes del fin hasta mucho después
-        lim_inf_fin = fin_aprox - int(0.1 * mpc) # Pequeña tolerancia hacia atrás
-        lim_sup_fin = fin_aprox + ventana_muestras
-        
-        # Candidatos: puntos SWT que caen DESPUÉS del límite inferior de la ventana
-        candidatos_fin = puntos_swt[puntos_swt >= lim_inf_fin]
-        
-        # De esos, nos quedamos con el que esté MÁS CERCA del fin (el primero)
-        if candidatos_fin.size > 0:
-            nuevo_fin = min(candidatos_fin) # El PRIMER transitorio después
-        else:
-            nuevo_fin = fin_aprox # Fallback: no se encontró candidato
-
-        eventos_refinados.append((
-            max(0, nuevo_inicio),
-            min(n_total, nuevo_fin)
-        ))
-
-    return eventos_refinados
 def detectar_eventos_con_fusion(senal: np.ndarray, fs: int, umbral_sag: float = 0.9,
                                 umbral_swell: float = 1.1, ciclos_minimos: float = 0.5) -> List[Tuple[int, int]]:
-    """Fusiona RMS, SWT y Hilbert para una detección más robusta."""
+    """
+    Fusión Definitiva v2: Usa RMS como Región de Interés (ROI) para filtrar a 
+    Hilbert y SWT, y luego refina los bordes del RMS con la mediana de las 
+    sugerencias de los asistentes dentro de la ROI.
+    """
     mpc = muestras_por_ciclo(fs)
-    medio_ciclo = mpc // 2
-    if medio_ciclo <= 0:
-        return []
-
-    # Máscaras individuales
+    
+    # Se generan las tres máscaras base.
     rms_mask = generar_mascara_rms(senal, fs, umbral_sag=umbral_sag)
     swt_mask = generar_mascara_swt(senal)
     hilbert_mask = generar_mascara_hilbert(senal, umbral_sag=umbral_sag, umbral_swell=umbral_swell)
 
-    # Coincidencias SWT & Hilbert
-    apoyo = swt_mask & hilbert_mask
-    intervalos_apoyo = convertir_mascara_a_intervalos(apoyo)
-    apoyo_filtrado = np.zeros_like(apoyo)
-    for ini, fin in intervalos_apoyo:
-        if (fin - ini) >= max(1, mpc // 4):
-            apoyo_filtrado[ini:fin] = True
+    # Se filtran las máscaras de los asistentes para que solo existan DENTRO de la máscara del RMS.
+    h_mask_filtrada = hilbert_mask & rms_mask
+    w_mask_filtrada = swt_mask & rms_mask
+    
+    # Se extraen todos los puntos de borde (inicio y fin) de los asistentes ya filtrados.
+    puntos_h = convertir_mascara_a_intervalos(h_mask_filtrada)
+    puntos_w = convertir_mascara_a_intervalos(w_mask_filtrada)
+    
+    # Creamos dos listas: una con todas las sugerencias de INICIO y otra con las de FIN.
+    inicios_sugeridos = np.array(sorted([ini for ini, fin in puntos_h] + [ini for ini, fin in puntos_w]))
+    fines_sugeridos = np.array(sorted([fin for ini, fin in puntos_h] + [fin for ini, fin in puntos_w]))
 
-    # Lógica: RMS obligatorio + apoyo SWT/Hilbert
-    activacion = rms_mask & (swt_mask | hilbert_mask | apoyo_filtrado)
-    preliminares = convertir_mascara_a_intervalos(activacion)
-    intervalos_swt = convertir_mascara_a_intervalos(swt_mask)
-    # Refinar bordes
-    refinados = refinar_bordes_con_swt(
-        preliminares,
-        intervalos_swt,
-        fs=fs,
-        n_total=len(senal),
-        ventana_busqueda_ciclos=0.75,
-    )
 
-    # Unir y filtrar
-    unidos = unir_intervalos(refinados, margen_muestras=medio_ciclo)
+    # Se obtienen los intervalos del RMS, que son nuestra guía principal.
+    intervalos_guia_rms = convertir_mascara_a_intervalos(rms_mask)
+    eventos_refinados = []
+    
+    for ini_rms, fin_rms in intervalos_guia_rms:
+        # Definimos una pequeña ventana de búsqueda alrededor de los bordes del RMS.
+        ventana = mpc // 2
+        
+        # Para el INICIO:
+        # Buscamos todas las sugerencias de inicio que estén cerca del inicio del RMS.
+        candidatos_ini = inicios_sugeridos[(inicios_sugeridos >= ini_rms - ventana) & 
+                                            (inicios_sugeridos <= ini_rms + ventana)]
+        # El nuevo inicio será la mediana de esas sugerencias. Si no hay, se queda el del RMS.
+        nuevo_inicio = int(np.median(candidatos_ini)) if candidatos_ini.size > 0 else ini_rms
+
+        # Para el FIN:
+        # Buscamos todas las sugerencias de fin que estén cerca del fin del RMS.
+        candidatos_fin = fines_sugeridos[(fines_sugeridos >= fin_rms - ventana) & 
+                                          (fines_sugeridos <= fin_rms + ventana)]
+        # El nuevo fin será la mediana.
+        nuevo_fin = int(np.median(candidatos_fin)) if candidatos_fin.size > 0 else fin_rms
+        
+        if nuevo_fin > nuevo_inicio:
+            eventos_refinados.append((nuevo_inicio, nuevo_fin))
+
+    # --- PASO 5: Unir y filtrar como siempre ---
+    unidos = unir_intervalos(eventos_refinados, margen_muestras=mpc // 2)
     min_duracion = int(ciclos_minimos * mpc)
     return [(i, f) for i, f in unidos if (f - i) >= min_duracion]
+
