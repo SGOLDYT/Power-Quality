@@ -135,7 +135,7 @@ def detectar_eventos_swt(senal: np.ndarray, fs: int, ciclos_minimos: float = 0.1
 def detectar_eventos_con_fusion(senal: np.ndarray, fs: int, umbral_sag: float = 0.9,
                                 umbral_swell: float = 1.1, ciclos_minimos: float = 0.5) -> List[Tuple[int, int]]:
     """
-    Fusión Definitiva v2: Usa RMS como Región de Interés (ROI) para filtrar a 
+    Usa RMS como Región de Interés (ROI) para filtrar a 
     Hilbert y SWT, y luego refina los bordes del RMS con la mediana de las 
     sugerencias de los asistentes dentro de la ROI.
     """
@@ -165,7 +165,7 @@ def detectar_eventos_con_fusion(senal: np.ndarray, fs: int, umbral_sag: float = 
     
     for ini_rms, fin_rms in intervalos_guia_rms:
         # Definimos una pequeña ventana de búsqueda alrededor de los bordes del RMS.
-        ventana = mpc // 2
+        ventana = mpc 
         
         # Para el INICIO:
         # Buscamos todas las sugerencias de inicio que estén cerca del inicio del RMS.
