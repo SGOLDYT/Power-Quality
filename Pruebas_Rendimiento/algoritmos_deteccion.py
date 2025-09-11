@@ -80,7 +80,12 @@ def generar_mascara_rms(senal: np.ndarray, fs: int, f_nom: float = 60.0,
 
 def generar_mascara_swt(senal: np.ndarray, wavelet: str = 'db4', niveles: int = 4) -> np.ndarray:
     """Máscara basada en energía de la SWT (Wavelet Estacionaria)."""
-    coefs = pywt.swt(senal, wavelet, level=niveles)
+    
+    max_level = pywt.swt_max_level(len(senal))
+    niveles_a_usar = min(niveles, max_level)
+    if niveles_a_usar < 1:
+     return np.zeros_like(senal, dtype=bool)
+    coefs = pywt.swt(senal, wavelet, level=niveles_a_usar)
     energia = np.sum([cD**2 for (_, cD) in coefs], axis=0)
 
     umbral = np.percentile(energia, 99.0)
