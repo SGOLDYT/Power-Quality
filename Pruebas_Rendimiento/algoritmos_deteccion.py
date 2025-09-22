@@ -43,6 +43,30 @@ def postprocesar_mascara(mascara: np.ndarray, mpc: int) -> np.ndarray:
     m = binary_closing(mascara, structure=se_cierre)
     m = binary_opening(m, structure=se_apertura)
     return m
+
+def rms_nominal(senal: np.ndarray, fs: int, f_nom: float = 60.0,
+                         percentil_ref: float = 95.0) -> float:
+    """Calcula el valor RMS nominal de la señal usando ventanas de un ciclo con solapamiento del 50%."""
+    muestras_por_ciclo = int(fs / f_nom)
+    # Salto de medio ciclo, como en tu función original
+    hop = muestras_por_ciclo // 2
+    
+    # Asegurarse de que el salto sea válido
+    if hop <= 0:
+        return 0.0
+    rms_vals = []
+    # Itera sobre la señal con una ventana de un ciclo y un solapamiento del 50%
+    for i in range(0, len(senal) - muestras_por_ciclo + 1, hop):
+        segmento = senal[i : i + muestras_por_ciclo]
+        rms = np.sqrt(np.mean(segmento**2))
+        rms_vals.append(rms)
+    # Si no se pudieron calcular valores RMS, retorna 0
+    if not rms_vals:
+        return 0.0
+
+    v_nominal = np.percentile(rms_vals, percentil_ref)
+    
+    return v_nominal
 # =============================================================================
 # SECCIÓN 2: GENERACIÓN DE MÁSCARAS (TRIGGERS)
 # =============================================================================
