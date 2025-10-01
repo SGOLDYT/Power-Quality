@@ -1,5 +1,6 @@
 # Ignore all CSV files
 *.csv
+*.parquet
 
 *__pycache__/
 *.pyc   

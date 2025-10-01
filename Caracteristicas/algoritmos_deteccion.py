@@ -219,3 +219,40 @@ def detectar_eventos_con_fusion(senal: np.ndarray, fs: int, umbral_sag: float = 
     min_duracion = int(ciclos_minimos * mpc)
     return [(i, f) for i, f in unidos if (f - i) >= min_duracion]
 
+def segmentar_evento_trifasico(va, vb, vc, fs, **kwargs):
+
+    # 1. Detectar eventos en cada fase de forma independiente usando tu función
+    intervalos_a = detectar_eventos_con_fusion(va, fs, **kwargs)
+    intervalos_b = detectar_eventos_con_fusion(vb, fs, **kwargs)
+    intervalos_c = detectar_eventos_con_fusion(vc, fs, **kwargs)
+
+    # 2. Juntar todos los intervalos encontrados en una sola lista
+    todos_intervalos = intervalos_a + intervalos_b + intervalos_c
+
+    # Si no se encontró ningún evento en ninguna fase, devuelve las señales originales
+    if not todos_intervalos:
+        return va, vb, vc
+
+    # 3. Encontrar el inicio más temprano y el fin más tardío
+    t_inicio_global = min(ini for ini, fin in todos_intervalos)
+    t_fin_global = max(fin for ini, fin in todos_intervalos)
+
+    # 4. Recortar las tres señales originales usando el rango global
+    return va[t_inicio_global:t_fin_global], vb[t_inicio_global:t_fin_global], vc[t_inicio_global:t_fin_global]
+def encontrar_intervalo_global(va, vb, vc, fs, **kwargs):
+    """Encuentra el inicio y fin global de un evento trifásico."""
+    intervalos_a = detectar_eventos_con_fusion(va, fs, **kwargs)
+    intervalos_b = detectar_eventos_con_fusion(vb, fs, **kwargs)
+    intervalos_c = detectar_eventos_con_fusion(vc, fs, **kwargs)
+    
+    todos_intervalos = intervalos_a + intervalos_b + intervalos_c
+    if not todos_intervalos:
+        return None, None
+
+    mpc = muestras_por_ciclo(fs)
+    intervalos_unidos = unir_intervalos(todos_intervalos, margen_muestras=mpc // 2)
+
+    t_inicio_global = min(ini for ini, fin in intervalos_unidos)
+    t_fin_global = max(fin for ini, fin in intervalos_unidos)
+    
+    return t_inicio_global, t_fin_global

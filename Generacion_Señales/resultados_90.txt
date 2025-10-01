@@ -1,6 +1,6 @@
-✅ ¡Evaluación completada! Resultados guardados en '..\Generacion_Señales\resultados_evaluacion.csv'
+¡Evaluación completada! Resultados guardados en '..\Generacion_Señales\resultados_evaluacion.csv'
 
---- 📊 RESUMEN DE RENDIMIENTO POR ALGORITMO ---
+---  RESUMEN DE RENDIMIENTO POR ALGORITMO ---
 Algoritmo  Tiempo_Promedio_ms  IoU_Promedio  Total_TP  Total_FN  Total_FP  Precision  Sensibilidad  F1_Score
    Fusion              2.6691        0.7811     16501      3999      3087     0.8424        0.8049    0.8232
   Hilbert              0.7192        0.7555     15849      4651     92013     0.1469        0.7731    0.2469
@@ -8,7 +8,7 @@ Algoritmo  Tiempo_Promedio_ms  IoU_Promedio  Total_TP  Total_FN  Total_FP  Preci
       SWT              0.7977        0.0036        77     20423     82477     0.0009        0.0038    0.0015
 
     IoU 50
-    --- 📊 RESUMEN DE RENDIMIENTO POR ALGORITMO ---
+    --- RESUMEN DE RENDIMIENTO POR ALGORITMO ---
 Algoritmo  Tiempo_Promedio_ms  IoU_Promedio  Total_TP  Total_FN  Total_FP  Precision  Sensibilidad  F1_Score
    Fusion              2.7514        0.8863     18990      1510       598     0.9695        0.9263    0.9474
   Hilbert              0.7377        0.9100     19700       800     88162     0.1826        0.9610    0.3069
